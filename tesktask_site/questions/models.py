@@ -6,3 +6,6 @@ class Questions(models.Model):
     text = models.TextField(blank=True)
     answer = models.TextField(blank=True)
     time_create = models.DateTimeField()
+
+    def __str__(self):
+        return self.id
