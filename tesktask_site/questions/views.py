@@ -1,4 +1,4 @@
-from django.contrib.sites import requests
+#from django.contrib.sites import requests
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
@@ -14,8 +14,10 @@ class QuestionsAPIView(APIView):
       count=request.GET
       response = get_data_from_api('https://jservice.io/api/random?',count)
       #Questions.objects.create(id_questions=response.list['answer'])
-      #json_to_obj = json.loads(response)
+      json_to_obj = json.loads(response)
+      #number = response['answer']
 
+      print (json_to_obj)
       return Response(response)
 
 
