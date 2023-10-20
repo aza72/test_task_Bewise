@@ -12,13 +12,11 @@ from questions.models import Questions
 class QuestionsAPIView(APIView):
    def post(self,request):
       count=request.GET
-      response = get_data_from_api('https://jservice.io/api/random?',count)
-      #Questions.objects.create(id_questions=response.list['answer'])
-      json_to_obj = json.loads(response)
-      #number = response['answer']
-
-      print (json_to_obj)
-      return Response(response)
+      data = get_data_from_api('https://jservice.io/api/random?',count)
+      answer = read_json(data)
+      save_data(answer)
+      #print (answer)
+      return Response(data)
 
 
 def get_data_from_api(url,count):
@@ -26,7 +24,20 @@ def get_data_from_api(url,count):
    data = response.json()
    return data
 
+def read_json(data):
+   for d in data:
+      answer={
+         'id_questions' : d['id'],
+         'text' : d['question'],
+         'answer' : d['answer'],
+         'time_create': d['created_at']
+      }
+   return answer
+def save_data(data):
 
-# def save_data_to_model(data):
-#    item = Questions(id_questions=data['id'])
-#    item.save()
+   Questions.objects.create(
+      id_questions=data['id_questions'],
+      text=data['text'],
+      answer=data['answer'],
+      time_create=data['time_create']
+   )

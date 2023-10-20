@@ -7,5 +7,5 @@ class Questions(models.Model):
     answer = models.TextField(blank=True)
     time_create = models.DateTimeField()
 
-    def __str__(self):
-        return self.id
+    # def __str__(self):
+    #     return self.id
