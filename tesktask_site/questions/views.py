@@ -1,14 +1,8 @@
-#from django.contrib.sites import requests
-from django.shortcuts import render
-from rest_framework.parsers import JSONParser
-from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
 import requests
-
 import json
-
 from questions.models import Questions
 
 
@@ -19,14 +13,15 @@ class QuestionsAPIView(APIView):
       data = get_data_from_api('https://jservice.io/api/random?',count)
       read_json(data)
       f = Questions.objects.last()
-      g=encode(f)
-      #d = Questions.objects.get(pk=f.id)
-      #s=f.pk-1
-      #=Questions.objects.get(pk=s)
-      #print(table_count)
-      print(g)
-      if table_count==0:
+      a=count.get('count')
+      b=int(a)
+      if table_count==0 and b==1:
          data=table_none()
+      elif b>1:
+         s=f.pk - 1
+         dat=Questions.objects.get(pk=s)
+         data = encode(dat)
+
       return Response(data)
 
 
