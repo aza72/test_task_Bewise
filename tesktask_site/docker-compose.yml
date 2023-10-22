@@ -1,0 +1,35 @@
+version: '2.22.0'
+
+services:
+  django:
+
+    build: .
+
+    container_name: django
+
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app
+
+    ports:
+      - 8000:8000
+
+    depends_on:
+      - pgdb
+
+  pgdb:
+
+    image: postgres
+
+    environment:
+      - POSTGRES_DB=Questions
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=1234
+
+    container_name: pgdb
+
+    volumes:
+      - pgdbdata:/var/lib/postgresql/data/
+
+volumes:
+  pgdbdata: null
